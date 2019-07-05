@@ -14,6 +14,7 @@ SRC_SORT = $(SRC)/sort/
 sortObj = \
 	$(OBJ_SORT)sort.o\
 	$(OBJ_SORT)sort_util.o\
+	$(OBJ_SORT)select_sort.o\
 	$(OBJ_SORT)bubble_sort.o
 
 #############################入口#########################	
@@ -50,7 +51,7 @@ $(OBJ_SORT)sort.o:\
 	$(CC) $(CFLAGS) -fPIC -c $(SRC_SORT)sort.c -o $(OBJ_SORT)sort.o
 
 $(OBJ_SORT)sort_util.o:\
-	$(SRC_SORT)sort.c\
+	$(SRC_SORT)sort_util.c\
 	$(SRC_SORT)sort.h
 	$(CC) $(CFLAGS) -fPIC -c $(SRC_SORT)sort_util.c -o $(OBJ_SORT)sort_util.o
 	
@@ -58,4 +59,8 @@ $(OBJ_SORT)bubble_sort.o:\
 	$(SRC_SORT)bubble_sort.c\
 	$(SRC_SORT)sort.h
 	$(CC) $(CFLAGS) -fPIC -c $(SRC_SORT)bubble_sort.c -o $(OBJ_SORT)bubble_sort.o
-	
+
+$(OBJ_SORT)select_sort.o:\
+	$(SRC_SORT)select_sort.c\
+	$(SRC_SORT)sort.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_SORT)select_sort.c -o $(OBJ_SORT)select_sort.o

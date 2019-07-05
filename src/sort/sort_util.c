@@ -95,12 +95,12 @@ void test_sort_func(const char* sort_name, void (*sort)(int*, int), int arr[], i
 	return;
 }
 
-void test_sort_func2(int n,void (*sort)(int*, int))
+void test_sort_func2(int n,void (*sort_func)(int*, int))
 {
     int* arr1 = generate_random_array(10,0,100);
 
 	print_array(arr1,10);
-	bubble_sort(arr1,10);
+	sort_func(arr1,10);
 	print_array(arr1,10);
 
 	free(arr1);

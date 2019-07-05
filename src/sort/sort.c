@@ -42,35 +42,44 @@
 	free(arr4);
 #endif
 
-void debug_sort()
-{
-	test_sort_func2(10,bubble_sort);
-}
+
 
 void test_sort_perform()
 {
-	int n = 5000;
+	int n = 20000;
 
 	// 测试1 一般性测试
-	printf("Test for Random Array, size = %d, random range [0,%d]\n",n,n);
 	int* arr1 = generate_random_array(n,0,n);
+    int* arr2 = copy_intarray(arr1, n);
 
+	printf("Test for Random Array, size = %d, random range [0,%d]\n",n,n);
 	test_sort_func("bubble_sort:",bubble_sort, arr1, n);	
+	test_sort_func("select_sort:",select_sort, arr2, n);	
 	free(arr1);
+	free(arr2);
 	 
 	// 测试2 测试近乎有序的数组
-	int swapTimes = 10;
-	printf("Test for Random Nearly Ordered Array, size = %d,swap time = %d\n",n,swapTimes);
+	int swapTimes = 0;
 	arr1 = generate_nearly_orderedarray(n,swapTimes);
+    arr2 = copy_intarray(arr1, n);
 
+	printf("Test for Random Nearly Ordered Array, size = %d,swap time = %d\n",n,swapTimes);
 	test_sort_func("bubble_sort:", bubble_sort, arr1, n);	
+	test_sort_func("select_sort:", select_sort, arr1, n);	
 	free(arr1);
+	free(arr2);
 
 	return ;	
 }
 
+void debug_sort()
+{
+	test_sort_func2(10,select_sort);
+}
+
 int test_sort(void)
 {
+	//debug_sort();
 	test_sort_perform();
 	return 0;
 }
