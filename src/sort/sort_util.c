@@ -1,7 +1,23 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <assert.h>
+#include "sort.h"
+
+void print_array(int array[],int len)
+{
+	for(int i = 0; i < len; i++)
+	{
+		printf("%d,",array[i]);
+
+		if(i%16==0&&i>0)
+		{
+			printf("\n");
+		}
+	}	
+	printf("\n");
+}
 
 void swap(int array[],int src,int dst)
 {
@@ -11,7 +27,7 @@ void swap(int array[],int src,int dst)
 	array[src] = array[dst];
 	array[dst] = tmp;
 }
-int *generate_random_array(int n, int range_l, int range_r) 
+int* generate_random_array(int n, int range_l, int range_r) 
 {
 	int* array;
 	
@@ -65,7 +81,7 @@ int issorted(int arr[], int n)
 	return 1;
 }
 
-void test_sort(const char* sort_name, void (*sort)(int*, int), int arr[], int n) 
+void test_sort_func(const char* sort_name, void (*sort)(int*, int), int arr[], int n) 
 {
 	double t;
 	clock_t startTime = clock();
@@ -77,5 +93,17 @@ void test_sort(const char* sort_name, void (*sort)(int*, int), int arr[], int n)
 
 	assert(issorted(arr, n));
 	return;
+}
+
+void test_sort_func2(int n,void (*sort)(int*, int))
+{
+    int* arr1 = generate_random_array(10,0,100);
+
+	print_array(arr1,10);
+	bubble_sort(arr1,10);
+	print_array(arr1,10);
+
+	free(arr1);
+	return ;
 }
 

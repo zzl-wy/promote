@@ -2,20 +2,24 @@ CC = gcc
 CFLAGS += $(CPUFLAG) $(CPUFLAG1) -std=gnu99 -Wall -g 
 
 #定义路径
-BASE = ./
-BIN = ./bin/
-OBJ = ./obj/
-SRC = ./
+BASE = /opt/promote/
+BIN = $(BASE)/bin/
+OBJ = $(BASE)/obj/
+SRC = ./src/
 
-OBJ_SORT = $(OBJ)/
-SRC_SORT = $(SRC)
+mainObj = $(OBJ)main.o
+
+OBJ_SORT = $(OBJ)/sort/
+SRC_SORT = $(SRC)/sort/
 sortObj = \
-	$(OBJ_SORT)sort.o
+	$(OBJ_SORT)sort.o\
+	$(OBJ_SORT)sort_util.o\
+	$(OBJ_SORT)bubble_sort.o
 
 #############################入口#########################	
 all:\
 	mkdir\
-	$(BIN)sorttest
+	$(BIN)promote
 	
 
 #############################建立目录########################	
@@ -31,10 +35,27 @@ clean:
 	rm -rf $(BIN)*	
 	
 #############################生成执行文件#########################
+$(BIN)promote:$(mainObj) $(sortObj)
+	$(CC) $(CFLAGS) $(mainObj) $(sortObj) -o $(BIN)promote
 
-$(BIN)sorttest:$(sortObj)
-	$(CC) $(CFLAGS) $(sortObj) -o $(BIN)sorttest
+####################main.o##########################
+$(OBJ)main.o:\
+	$(SRC)main.c 
+	$(CC) $(CFLAGS) -fPIC -c $(SRC)main.c -o $(OBJ)main.o
 
+####################SORT模块##########################
 $(OBJ_SORT)sort.o:\
-	$(SRC_SORT)sort.c 
+	$(SRC_SORT)sort.c\
+	$(SRC_SORT)sort.h
 	$(CC) $(CFLAGS) -fPIC -c $(SRC_SORT)sort.c -o $(OBJ_SORT)sort.o
+
+$(OBJ_SORT)sort_util.o:\
+	$(SRC_SORT)sort.c\
+	$(SRC_SORT)sort.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_SORT)sort_util.c -o $(OBJ_SORT)sort_util.o
+	
+$(OBJ_SORT)bubble_sort.o:\
+	$(SRC_SORT)bubble_sort.c\
+	$(SRC_SORT)sort.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_SORT)bubble_sort.c -o $(OBJ_SORT)bubble_sort.o
+	
