@@ -13,4 +13,6 @@ void test_sort_func2(int n,void (*sort)(int*, int));
 
 void bubble_sort(int array[],int len);
 void select_sort(int array[],int len);
+void insert_sort(int array[],int len);
+
 #endif //__SORT_H__

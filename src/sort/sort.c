@@ -74,12 +74,12 @@ void test_sort_perform()
 
 void debug_sort()
 {
-	test_sort_func2(10,select_sort);
+	test_sort_func2(10,insert_sort);
 }
 
 int test_sort(void)
 {
-	//debug_sort();
-	test_sort_perform();
+	debug_sort();
+	//test_sort_perform();
 	return 0;
 }

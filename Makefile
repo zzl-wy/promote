@@ -15,6 +15,7 @@ sortObj = \
 	$(OBJ_SORT)sort.o\
 	$(OBJ_SORT)sort_util.o\
 	$(OBJ_SORT)select_sort.o\
+	$(OBJ_SORT)insert_sort.o\
 	$(OBJ_SORT)bubble_sort.o
 
 #############################入口#########################	
@@ -59,6 +60,11 @@ $(OBJ_SORT)bubble_sort.o:\
 	$(SRC_SORT)bubble_sort.c\
 	$(SRC_SORT)sort.h
 	$(CC) $(CFLAGS) -fPIC -c $(SRC_SORT)bubble_sort.c -o $(OBJ_SORT)bubble_sort.o
+
+$(OBJ_SORT)insert_sort.o:\
+	$(SRC_SORT)insert_sort.c\
+	$(SRC_SORT)sort.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_SORT)insert_sort.c -o $(OBJ_SORT)insert_sort.o
 
 $(OBJ_SORT)select_sort.o:\
 	$(SRC_SORT)select_sort.c\
