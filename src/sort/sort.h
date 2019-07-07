@@ -11,10 +11,13 @@ void print_array(int array[],int len);
 void test_sort_func(const char* sort_name, void (*sort)(int*, int), int arr[], int n);
 void test_sort_func2(int n,void (*sort)(int*, int));
 
+//n2
 void bubble_sort(int array[],int len);
 void select_sort(int array[],int len);
 void insert_sort(int array[],int len);
 
+//nlogn
 void shell_sort(int array[],int len);
+void merge_sort(int array[],int len);
 
 #endif //__SORT_H__
