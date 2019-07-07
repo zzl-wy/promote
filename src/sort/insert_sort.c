@@ -11,11 +11,51 @@
 //空间复杂度O(1)
 
 
-void insert_sort(int array[],int len)
+void insert_sort2(int array[],int len)
 {
 	for(int i = 1; i < len; i++)
 	{
-		for(int j = 0; j > )
+		for(int j = i; j > 0; j--)
+		{
+			if(array[j-1] > array[j])
+			{
+				swap(array,j-1,j);
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+	
+	return ;
+}
+
+//插入排序优化后
+void insert_sort(int array[],int len)
+{
+	int tmp;
+	int i,j;
+	
+	for(i = 1; i < len; i++)
+	{
+		tmp = array[i];
+		for(j = i; j > 0; j--)
+		{
+			if(array[j-1] > tmp)
+			{
+				array[j] = array[j-1];
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		if(i != j)
+		{
+			array[j] = tmp;
+		}
 	}
 	
 	return ;
