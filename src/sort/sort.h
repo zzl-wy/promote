@@ -15,4 +15,6 @@ void bubble_sort(int array[],int len);
 void select_sort(int array[],int len);
 void insert_sort(int array[],int len);
 
+void shell_sort(int array[],int len);
+
 #endif //__SORT_H__
