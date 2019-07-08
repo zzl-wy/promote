@@ -19,5 +19,6 @@ void insert_sort(int array[],int len);
 //nlogn
 void shell_sort(int array[],int len);
 void merge_sort(int array[],int len);
+void quick_sort(int array[],int len);
 
 #endif //__SORT_H__

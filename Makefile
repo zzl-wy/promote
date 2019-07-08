@@ -15,6 +15,7 @@ sortObj = \
 	$(OBJ_SORT)sort.o\
 	$(OBJ_SORT)sort_util.o\
 	$(OBJ_SORT)select_sort.o\
+	$(OBJ_SORT)quick_sort.o\
 	$(OBJ_SORT)insert_sort.o\
 	$(OBJ_SORT)shell_sort.o\
 	$(OBJ_SORT)merge_sort.o\
@@ -82,3 +83,8 @@ $(OBJ_SORT)select_sort.o:\
 	$(SRC_SORT)select_sort.c\
 	$(SRC_SORT)sort.h
 	$(CC) $(CFLAGS) -fPIC -c $(SRC_SORT)select_sort.c -o $(OBJ_SORT)select_sort.o
+
+$(OBJ_SORT)quick_sort.o:\
+	$(SRC_SORT)quick_sort.c\
+	$(SRC_SORT)sort.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_SORT)quick_sort.c -o $(OBJ_SORT)quick_sort.o
