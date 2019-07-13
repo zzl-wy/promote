@@ -12,7 +12,7 @@
 //空间复杂度O(1)
 
 
-void select_sort(int array[],int len)
+void select_sort2(int array[],int len)
 {
 	int min_index;
 	
@@ -37,3 +37,24 @@ void select_sort(int array[],int len)
 }
 
 
+void select_sort(int array[],int len)
+{
+	int min_index;
+
+	for(int i = 0; i < len; i++)
+	{
+		min_index = i;
+		for(int j = i+1; j < len; j++)
+		{
+			if(array[j] < array[min_index])
+			{
+				min_index = j;
+			}
+		}
+
+		if(i!=min_index)
+		{
+			swap(array,min_index,i);
+		}
+	}
+}

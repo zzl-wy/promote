@@ -44,7 +44,7 @@
 
 void test_sort_perform_o2()
 {
-	int n = 40000;
+	int n = 10000;
 
 	// 测试1 一般性测试
 	int* arr1 = generate_random_array(n,0,n);
@@ -53,10 +53,10 @@ void test_sort_perform_o2()
     int* arr4 = copy_intarray(arr1, n);
 
 	printf("Test for Random Array, size = %d, random range [0,%d]\n",n,n);
-	test_sort_func("bubble_sort:",bubble_sort, arr1, n);	
+//	test_sort_func("bubble_sort:",bubble_sort, arr1, n);	
 	test_sort_func("select_sort:",select_sort, arr2, n);	
 	test_sort_func("insert_sort:",insert_sort, arr3, n);	
-	test_sort_func("shell_sort:",shell_sort, arr4, n);	
+//	test_sort_func("shell_sort:",shell_sort, arr4, n);	
 	free(arr1);
 	free(arr2);
 	free(arr3);
@@ -70,10 +70,10 @@ void test_sort_perform_o2()
     arr4 = copy_intarray(arr1, n);
 
 	printf("Test for Random Nearly Ordered Array, size = %d,swap time = %d\n",n,swapTimes);
-	test_sort_func("bubble_sort:", bubble_sort, arr1, n);	
+//	test_sort_func("bubble_sort:", bubble_sort, arr1, n);	
 	test_sort_func("select_sort:", select_sort, arr2, n);	
 	test_sort_func("insert_sort:", insert_sort, arr3, n);	
-	test_sort_func("shell_sort:", shell_sort, arr4, n);	
+//	test_sort_func("shell_sort:", shell_sort, arr4, n);	
 	free(arr1);
 	free(arr2);
 	free(arr3);
@@ -94,7 +94,7 @@ void test_sort_perform()
 	printf("Test for Random Array, size = %d, random range [0,%d]\n",n,n);
 	test_sort_func("shell_sort:", shell_sort, arr1, n);
 	test_sort_func("merge_sort:", merge_sort, arr2, n);
-	test_sort_func("quick_sort:", quick_sort, arr3, n);
+	test_sort_func("merge_sortBU:", merge_sortBU, arr3, n);
 	free(arr1);
 	free(arr2);
 	free(arr3);
@@ -108,7 +108,7 @@ void test_sort_perform()
 	printf("Test for Random Nearly Ordered Array, size = %d,swap time = %d\n",n,swapTimes);
 	test_sort_func("shell_sort:", shell_sort, arr1, n);	
 	test_sort_func("merge_sort:", merge_sort, arr2, n);
-//	test_sort_func("quick_sort:", quick_sort, arr3, n);
+	test_sort_func("merge_sortBU:", merge_sortBU, arr3, n);
 	free(arr1);
 	free(arr2);
 	free(arr3);
@@ -119,7 +119,7 @@ void test_sort_perform()
 
 void debug_sort()
 {
-	test_sort_func2(10,quick_sort);
+	test_sort_func2(10,merge_sortBU);
 }
 
 int test_sort(void)

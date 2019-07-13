@@ -4,12 +4,13 @@
 
 //归并排序
 
-//不稳定的排序
+//不稳定的排序,需要额外的空间
 //平均时间复杂度O(nlogn)
 //最好情况O(nlogn)
 //最坏情况O(nlogn)
 //空间复杂度O(n)
 
+//将array[l...mid]和array[mid+1...r]两部分进行归并
 static void __merge(int array[],int left,int mid,int right)
 {
 	int temp[right-left+1];
@@ -55,6 +56,8 @@ static void __merge(int array[],int left,int mid,int right)
 	return ;
 }
 
+//自顶向下的归并排序
+//递归使用归并排序，对array[left...right]的范围进行排序
 void __merge_sort(int array[],int left,int right)
 {
 	int mid;
@@ -72,25 +75,66 @@ void __merge_sort(int array[],int left,int right)
 	return ;
 }
 
-void merge_sort2(int array[],int len)
+void __merge_sort2(int array[],int l,int r)
 {
-	__merge_sort(array, 0, len);
+	int mid;
+	
+	if(l >= r)return;
+
+	mid = (l + r)/2;
+	__merge_sort(array, l, mid);
+	__merge_sort(array, mid+1, r);
+
+	if(array[mid] > array[mid+1])//数据完全有序的时候的优化
+		__merge(array,l,mid,r);
+	return;
+}
+
+
+void __merge_sort3(int array[],int l,int r)
+{
+	int mid;
+
+#if 0
+	if(l >= r)return;
+#else
+	if(r-l <= 7)
+	{
+		insert_sort(array+l,r-l+1);//在小规模数据的时候使用插入排序
+		return;
+	}
+#endif
+
+	mid = (l + r)/2;
+	__merge_sort(array, l, mid);
+	__merge_sort(array, mid+1, r);
+
+	if(array[mid] > array[mid+1])
+		__merge(array,l,mid,r);
+	return;
+}
+
+
+void merge_sort(int array[],int len)
+{
+	__merge_sort3(array, 0, len);
 	return ;
 }
 
-#define min(x,y) (x)>(y)?(y):(x)
-void merge_sort(int array[],int len)
+//自下向上的归并排序，使用迭代代替递归。可以用于链表
+void merge_sortBU(int array[],int len)
 {
-	for(int sz = 1; sz <= len;sz*=2)
-	{
-		for(int i = 0;i+sz < len; i+=sz*2)
+	for(int sz = 1; sz <= len; sz*=2)
+	{		
+		for(int i = 0; i+sz < len; i=i+sz*2)
 		{
-			__merge(array,i,i+sz-1,min(i+2*sz-1,len-1));
+			__merge(array,i,i+sz-1,min(i+sz*2-1,len-1));
 		}
 	}
 
-	return ;
+	return;
 }
+
 
 
 
