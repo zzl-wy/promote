@@ -1,88 +1,216 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <time.h>
 #include "sort.h"
 
-static int partition(int array[],int low,int high)
+#if 0
+int __parition_q(int array[],int l,int r)
 {
-	int piovt;
+	int pivot;
 
-	piovt = array[low];
-	while(low < high)
+	swap(array, l,rand()%(r-l+1)+l);
+	pivot = array[l];
+	while(l < r)
 	{
-		while(low < high && array[high] >= piovt)
+		while(l < r && array[r] > pivot)
 		{
-			high--;
+			r--;
 		}
-		array[low] = array[high];
+		array[l] = array[r];
 
-		while(low < high && array[low] <= piovt)
+		while(l < r && array[l] < pivot)
 		{
-			low++;
+			l++;
 		}
-		array[high] = array[low];
-		
+		array[r] = array[l];
 	}
-	array[low] = piovt;
-	return low;
+
+	array[l] = pivot;
+	return l;
 }
-static void _quick_sort(int array[],int low,int high)
+#endif
+
+
+int __parition2(int array[],int l,int r)
 {
-	int piovt;
-	if(low < high)
+	int pivot;
+
+	swap(array, l,rand()%(r-l+1)+l);
+	pivot = array[l];
+
+	//array[l+1,i]<=v;array(j...r]>=v
+	int i = l+1;
+	int j = r;
+
+	while(1)
 	{
-		piovt = partition(array,low,high);
-		_quick_sort(array,low,piovt-1);
-		_quick_sort(array,piovt+1,high);
+		while(i <= r && array[i] < pivot)
+		{
+			i++;
+		}
+
+		while(j >= l+1 && array[j] > pivot)
+		{
+			j--;
+		}
+
+		if(i > j)
+		{
+			break;
+		}
+
+		swap(array, i,j);
+		i++;
+		j--;
 	}
+
+	swap(array, l,j);
+	return j;
+}
+
+void __quick_sort2(int array[],int l,int r)
+{
+	int pivot;
+
+#if 0
+	if(l >= r)
+	{
+		return ;
+	}
+#else
+	if(r-l <= 7)
+	{
+		insert_sort(array+l,r-l+1);//在小规模数据的时候使用插入排序
+		return;
+	}
+#endif
+	
+	pivot = __parition2(array,l,r);
+	__quick_sort2(array,l,pivot-1);
+	__quick_sort2(array,pivot+1,r);
+	
+	return;
 }
 
 void quick_sort2(int array[],int len)
 {
-	_quick_sort(array,0,len-1);
+	srand(time(NULL));
+	__quick_sort2(array,0,len-1);
 }
 
-int partition1(int array[],int left,int right)
+//=====================================================================
+//三路快速排序
+
+void __quick_sort_3way(int array[],int l,int r)
 {
 	int pivot;
 
-	pivot = array[left];
-	while(left<right)
+#if 0
+	if(l >= r)
 	{
-		while(left<right&&array[right]>=pivot)
-		{
-			right--;
-		}
-		array[left] = array[right];
-
-		while(left<right&&array[left]<=pivot)
-		{
-			left++;
-		}
-		array[right] = array[left];
+		return ;
 	}
-	
-	array[left] = pivot;
-	return left;
-}
-
-void _quick_sort1(int array[],int left,int right)
-{
-	int pivot;
-	
-	if(left >= right)
+#else
+	if(r-l <= 7)
 	{
-		return ;	
+		insert_sort(array+l,r-l+1);//在小规模数据的时候使用插入排序
+		return;
 	}
+#endif
 
-	pivot = partition1(array,left,right);
-	_quick_sort1(array, left, pivot-1);
-	_quick_sort1(array, pivot+1, right);
+	//partition
+
+	swap(array, l,rand()%(r-l+1)+l);
+	pivot = array[l];
+
+	int lt = l;//array[l+1...lt]<v
+	int gt = r + 1;//array[gt...r]>v
+	int i = l + 1;//array[lt+1...i]==v
+	while(i < gt)
+	{
+		if(array[i] < pivot)
+		{
+			swap(array, i,lt+1);
+			lt++;
+			i++;
+		}
+		else if(array[i] > pivot)
+		{
+			swap(array, i,gt-1);
+			gt--;
+		}
+		else
+		{
+			i++;
+		}
+	}
+	swap(array, l,lt);
 	
+	__quick_sort_3way(array,l,lt-1);	
+	__quick_sort_3way(array,gt,r);
 	return ;
+}
+
+void quick_sort_3way(int array[],int len)
+{
+	srand(time(NULL));
+	__quick_sort_3way(array,0,len-1);
+}
+
+
+//=====================================================================
+//对array[l...r]部分进行Partision操作
+//返回一个索引位置index使得array[l...index-1]<array[index],array[index+1...r]>array[index]
+//在面临有重复元素的时候效率低
+int __parition(int array[],int l,int r)
+{
+	int pivot;
+	int j = l;
+
+	swap(array, l,rand()%(r-l+1)+l);
+	pivot = array[l];
+	for(int i = l+1; i <= r; i++)
+	{
+		if(array[i] < pivot)
+		{
+			swap(array,j+1, i);
+			j++;
+		}
+	}
+
+	swap(array,l,j);
+	return j;
+}
+
+void __quick_sort(int array[],int l,int r)
+{
+	int pivot;
+
+#if 0
+	if(l >= r)
+	{
+		return ;
+	}
+#else
+	if(r-l <= 7)
+	{
+		insert_sort(array+l,r-l+1);//在小规模数据的时候使用插入排序
+		return;
+	}
+#endif
+
+	
+	pivot = __parition(array,l,r);
+	__quick_sort(array,l,pivot-1);
+	__quick_sort(array,pivot+1,r);
+	
+	return;
 }
 
 void quick_sort(int array[],int len)
 {
-	_quick_sort1(array, 0, len-1);
+	srand(time(NULL));
+	__quick_sort(array,0,len-1);
 }
 
