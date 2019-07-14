@@ -5,28 +5,6 @@
 #include <assert.h>
 #include "sort.h"
 
-void print_array(int array[],int len)
-{
-	for(int i = 0; i < len; i++)
-	{
-		printf("%d,",array[i]);
-
-		if(i%16==0&&i>0)
-		{
-			printf("\n");
-		}
-	}	
-	printf("\n");
-}
-
-void swap(int array[],int src,int dst)
-{
-	int tmp;
-	
-	tmp = array[src];
-	array[src] = array[dst];
-	array[dst] = tmp;
-}
 int* generate_random_array(int n, int range_l, int range_r) 
 {
 	int* array;
@@ -97,11 +75,11 @@ void test_sort_func(const char* sort_name, void (*sort)(int*, int), int arr[], i
 
 void test_sort_func2(int n,void (*sort_func)(int*, int))
 {
-    int* arr1 = generate_random_array(10,0,100);
+    int* arr1 = generate_random_array(n,0,100);
 
-	print_array(arr1,10);
-	sort_func(arr1,10);
-	print_array(arr1,10);
+	print_array(arr1,n);
+	sort_func(arr1,n);
+	print_array(arr1,n);
 
 	free(arr1);
 	return ;

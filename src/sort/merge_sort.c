@@ -120,6 +120,7 @@ void merge_sort(int array[],int len)
 	__merge_sort3(array, 0, len);
 	return ;
 }
+#define MIN(x,y) (x)>(y)?(y):(x)
 
 //自下向上的归并排序，使用迭代代替递归。可以用于链表
 void merge_sortBU(int array[],int len)
@@ -128,13 +129,14 @@ void merge_sortBU(int array[],int len)
 	{		
 		for(int i = 0; i+sz < len; i=i+sz*2)
 		{
-			__merge(array,i,i+sz-1,min(i+sz*2-1,len-1));
+			__merge(array,i,i+sz-1,MIN(i+sz*2-1,len-1));
 		}
 	}
 
 	return;
 }
 
+//使用归并排序的思路求解逆序对的个数
 
 
 

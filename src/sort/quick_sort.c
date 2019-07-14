@@ -214,3 +214,5 @@ void quick_sort(int array[],int len)
 	__quick_sort(array,0,len-1);
 }
 
+//todo利用快速排序求第n大的元素
+
