@@ -143,6 +143,7 @@ void test_sort_perform()
     int* arr4 = copy_intarray(arr1, n);
     int* arr5 = copy_intarray(arr1, n);
     int* arr6 = copy_intarray(arr1, n);
+    int* arr7 = copy_intarray(arr1, n);
 
 	printf("Test for Random Array, size = %d, random range [0,%d]\n",n,n);
 	test_sort_func("shell_sort:", shell_sort, arr1, n);
@@ -151,12 +152,14 @@ void test_sort_perform()
 	test_sort_func("quick_sort:", quick_sort, arr4, n);
 	test_sort_func("heap_sort:", heap_sort, arr5, n);
 	test_sort_func("heap_sort_heapify:", heap_sort_heapify, arr6, n);
+	test_sort_func("heap_sort_origin:", heap_sort_origin, arr7, n);
 	free(arr1);
 	free(arr2);
 	free(arr3);
 	free(arr4);
 	free(arr5);
 	free(arr6);
+	free(arr7);
 
 	// 测试2 测试近乎有序的数组
 	int swapTimes = 10;
@@ -166,6 +169,7 @@ void test_sort_perform()
     arr4 = copy_intarray(arr1, n);
     arr5 = copy_intarray(arr1, n);
     arr6 = copy_intarray(arr1, n);
+    arr7 = copy_intarray(arr1, n);
 
 	printf("Test for Random Nearly Ordered Array, size = %d,swap time = %d\n",n,swapTimes);
 	test_sort_func("shell_sort:", shell_sort, arr1, n);	
@@ -173,13 +177,15 @@ void test_sort_perform()
 	test_sort_func("merge_sortBU:", merge_sortBU, arr3, n);
 	test_sort_func("quick_sort:", quick_sort, arr4, n);
 	test_sort_func("heap_sort:", heap_sort, arr5, n);
-	test_sort_func("heap_sort_heapify:", heap_sort_heapify, arr6, n);	
+	test_sort_func("heap_sort_heapify:", heap_sort_heapify, arr6, n);
+	test_sort_func("heap_sort_origin:", heap_sort_origin, arr7, n);
 	free(arr1);
 	free(arr2);
 	free(arr3);
 	free(arr4);
 	free(arr5);
 	free(arr6);
+	free(arr7);
 
 	return ;	
 }
