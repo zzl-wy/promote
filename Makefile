@@ -26,6 +26,7 @@ OBJ_HEAP = $(OBJ)/heap/
 SRC_HEAP = $(SRC)/heap/
 heapObj = \
 	$(OBJ_HEAP)heap.o\
+	$(OBJ_HEAP)index_heap.o\
 	$(OBJ_HEAP)heap_test.o
 
 OBJ_UTIL = $(OBJ)/util/
@@ -73,6 +74,11 @@ $(OBJ_HEAP)heap.o:\
 	$(SRC_HEAP)heap.c\
 	$(SRC_HEAP)heap.h
 	$(CC) $(CFLAGS) -fPIC -c $(SRC_HEAP)heap.c -o $(OBJ_HEAP)heap.o
+
+$(OBJ_HEAP)index_heap.o:\
+	$(SRC_HEAP)index_heap.c\
+	$(SRC_HEAP)heap.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_HEAP)index_heap.c -o $(OBJ_HEAP)index_heap.o
 
 $(OBJ_HEAP)heap_test.o:\
 	$(SRC_HEAP)heap_test.c\
