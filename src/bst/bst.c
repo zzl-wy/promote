@@ -194,4 +194,29 @@ void bst_postorder(bst_desc_s*	bst_desc)
 
 }
 
+//bst层序遍历需要借助一个队列
+void bst_levelorder(bst_desc_s*	bst_desc)
+{
+
+}
+
+void bst_removemin(bst_desc_s*	bst_desc)
+{
+
+}
+
+void bst_removemin(bst_desc_s*	bst_desc)
+{
+
+}
+
+void bst_removemax(bst_desc_s*	bst_desc)
+{
+
+}
+
+void bst_remove(bst_desc_s*	bst_desc)
+{
+
+}
 
