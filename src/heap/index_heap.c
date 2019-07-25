@@ -44,7 +44,14 @@ int indexheap_getmax(indexheap_s* heap)
 	ret = heap->data[heap->index[1]];
 	swap(heap->index,1,heap->count);
 	heap->count--;
+
+	indexheap_debug(heap);
+
 	indexheap_shiftdown(heap, 1);
+	
+	indexheap_debug(heap);
+	printf("get_max=%d\n\n\n",ret);
+
 	return ret;
 }
 
@@ -76,6 +83,24 @@ int indexheap_insert(indexheap_s* heap,int item)
 	heap->index[heap->count] = heap->count;
 	
 	indexheap_shiftup(heap,heap->count);
+	return 0;
+}
+
+int indexheap_debug(indexheap_s* heap)
+{	
+	printf("indexheap_debug:\n");
+	for(int i = 1; i <= heap->count; i++)
+	{
+		printf("%d ",heap->index[i]);
+	}
+
+	printf("\n");
+	for(int i = 1; i <= heap->count; i++)
+	{
+		printf("%d ",heap->data[i]);
+	}
+	printf("\n");
+
 	return 0;
 }
 

@@ -37,12 +37,13 @@ void test_heap()
 	for(int i = 0; i < 10; i++)
 	{
 		tmp = rand()%100;
-		printf("aaaaaa\n");
 		indexheap_insert(heap,tmp);
-		printf("bbbbbbb\n");
 	}
 
 	printf("indexheap_count=%d\n",indexheap_count(heap));
+	indexheap_debug(heap);
+	printf("\n\n");
+	
 	while(!indexheap_isempty(heap))
 	{
 		printf("%d ",indexheap_getmax(heap));

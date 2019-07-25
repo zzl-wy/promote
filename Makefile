@@ -29,6 +29,12 @@ heapObj = \
 	$(OBJ_HEAP)index_heap.o\
 	$(OBJ_HEAP)heap_test.o
 
+OBJ_BST = $(OBJ)/bst/
+SRC_BST = $(SRC)/bst/
+bstObj = \
+	$(OBJ_BST)bst.o\
+	$(OBJ_BST)bst_test.o
+	
 OBJ_UTIL = $(OBJ)/util/
 SRC_UTIL = $(SRC)/util/
 utilObj = \
@@ -47,7 +53,8 @@ mkdir:
 	test -d $(OBJ_SORT) || mkdir -p $(OBJ_SORT)
 	test -d $(OBJ_HEAP) || mkdir -p $(OBJ_HEAP)
 	test -d $(OBJ_UTIL) || mkdir -p $(OBJ_UTIL)
-
+	test -d $(OBJ_BST) || mkdir -p $(OBJ_BST)
+	
 #############################清理文件########################
 .PHONY : clean
 clean:
@@ -55,8 +62,8 @@ clean:
 	rm -rf $(BIN)*	
 	
 #############################生成执行文件#########################
-$(BIN)promote:$(mainObj) $(utilObj) $(heapObj) $(sortObj)
-	$(CC) $(CFLAGS) $(mainObj) $(utilObj) $(heapObj) $(sortObj) -o $(BIN)promote
+$(BIN)promote:$(mainObj) $(utilObj) $(heapObj) $(sortObj) $(bstObj)
+	$(CC) $(CFLAGS) $(mainObj) $(utilObj) $(heapObj) $(sortObj) $(bstObj) -o $(BIN)promote
 
 ####################main.o##########################
 $(OBJ)main.o:\
@@ -65,10 +72,20 @@ $(OBJ)main.o:\
 
 ####################UTIL模块##########################
 $(OBJ_UTIL)util.o:\
-	$(SRC_UTIL)util.c\
-	$(SRC_UTIL)util.h
+	$(SRC_UTIL)util.c
 	$(CC) $(CFLAGS) -fPIC -c $(SRC_UTIL)util.c -o $(OBJ_UTIL)util.o
 
+####################BST模块##########################
+$(OBJ_BST)bst.o:\
+	$(SRC_BST)bst.c\
+	$(SRC_BST)bst.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_BST)bst.c -o $(OBJ_BST)bst.o
+
+$(OBJ_BST)bst_test.o:\
+	$(SRC_BST)bst_test.c\
+	$(SRC_BST)bst.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_BST)bst_test.c -o $(OBJ_BST)bst_test.o
+	
 ####################HEAP模块##########################
 $(OBJ_HEAP)heap.o:\
 	$(SRC_HEAP)heap.c\

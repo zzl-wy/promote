@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "heap.h"
+#include "bst.h"
 
 typedef struct __bst_node_
 {
@@ -37,9 +37,24 @@ bst_desc_s* bst_init(void)
 	return bst_desc;
 }
 
-int bst_destroy(bst_desc_s*	bst_desc)
+//后序遍历递归删除BST树的节点
+void __bst_destroy(bst_desc_s*	bst_desc,bst_node_s *node)
 {
+	if(NULL == node)
+	{
+		return ;
+	}
 
+	__bst_destroy(bst_desc,node->left);
+	__bst_destroy(bst_desc,node->right);
+	safe_free(node);;
+
+	return ;
+}
+
+void bst_destroy(bst_desc_s*	bst_desc)
+{
+	__bst_destroy(bst_desc, bst_desc->root);
 }
 
 int bst_size(bst_desc_s*	bst_desc)
@@ -47,28 +62,9 @@ int bst_size(bst_desc_s*	bst_desc)
 	return bst_desc->count;
 }
 
-int isEmpty(bst_desc_s*	bst_desc)
+int bst_isempty(bst_desc_s*	bst_desc)
 {
 	return bst_desc->count == 0;
-}
-
-void* malloc0(long int size)
-{
-	void* p;
-
-	if(size <= 0)
-	{
-		abort();
-	}
-	
-	p = malloc(size);
-	if(NULL == p)
-	{
-		abort();
-	}
-	memset(p,0,size);
-
-	return p;
 }
 
 static bst_node_s* create_bst_node(int key,int value)
@@ -155,11 +151,11 @@ static bst_node_s* __bst_search(bst_desc_s*	bst_desc,bst_node_s* node,int key)
 	}
 	else if(node->key > key)
 	{
-		ret = __bst_contain(bst_desc, node->left, key);
+		ret = __bst_search(bst_desc, node->left, key);
 	}
 	else
 	{
-		ret = __bst_contain(bst_desc, node->right, key);
+		ret = __bst_search(bst_desc, node->right, key);
 	}
 
 	return ret;
@@ -179,28 +175,67 @@ int* bst_search(bst_desc_s*	bst_desc,int key)
 	return &bst_node->value;
 }
 
+//先序遍历
+void __bst_preorder(bst_desc_s*	bst_desc,bst_node_s *node)
+{
+	if(NULL == node)
+	{
+		return ;
+	}
+
+	printf("%d ",node->key);
+	__bst_preorder(bst_desc,node->left);
+	__bst_preorder(bst_desc,node->right);
+
+	return ;
+}
+
 void bst_preorder(bst_desc_s*	bst_desc)
 {
+	__bst_preorder(bst_desc, bst_desc->root);
+}
 
+//中序遍历
+void __bst_inorder(bst_desc_s*	bst_desc,bst_node_s *node)
+{
+	if(NULL == node)
+	{
+		return ;
+	}
+
+	__bst_preorder(bst_desc,node->left);
+	printf("%d ",node->key);
+	__bst_preorder(bst_desc,node->right);
+
+	return ;
 }
 
 void bst_inorder(bst_desc_s*	bst_desc)
 {
-
+	__bst_inorder(bst_desc, bst_desc->root);
 }
 
+//后序遍历
+void __bst_postorder(bst_desc_s*	bst_desc,bst_node_s *node)
+{
+	if(NULL == node)
+	{
+		return ;
+	}
+
+	__bst_preorder(bst_desc,node->left);
+	__bst_preorder(bst_desc,node->right);
+	printf("%d ",node->key);
+
+	return ;
+}
 void bst_postorder(bst_desc_s*	bst_desc)
 {
-
+	__bst_postorder(bst_desc, bst_desc->root);
 }
 
 //bst层序遍历需要借助一个队列
 void bst_levelorder(bst_desc_s*	bst_desc)
-{
-
-}
-
-void bst_removemin(bst_desc_s*	bst_desc)
 {
 
 }

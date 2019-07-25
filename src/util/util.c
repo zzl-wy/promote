@@ -26,3 +26,21 @@ void print_array(int array[],int len)
 	printf("\n");
 }
 
+void* malloc0(long int size)
+{
+	void* p;
+
+	if(size <= 0)
+	{
+		abort();
+	}
+	
+	p = malloc(size);
+	if(NULL == p)
+	{
+		abort();
+	}
+	memset(p,0,size);
+
+	return p;
+}

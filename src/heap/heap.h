@@ -30,4 +30,6 @@ int indexheap_getmax(indexheap_s* heap);
 int indexheap_isempty(indexheap_s* heap);
 int indexheap_count(indexheap_s* heap);
 
+int indexheap_debug(indexheap_s* heap);
+
 #endif //__HEAP_H__
