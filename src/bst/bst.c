@@ -20,8 +20,6 @@ typedef struct __bst_desc__
     int count;
 }bst_desc_s;
 
-
-
 bst_desc_s* bst_init(void)
 {
 	bst_desc_s*	bst_desc;
@@ -104,6 +102,7 @@ static bst_node_s* _bst_insert(bst_desc_s*	bst_desc,bst_node_s* node,int key,int
 void bst_insert(bst_desc_s*	bst_desc,int key,int value)
 {
 	bst_desc->root = _bst_insert(bst_desc,bst_desc->root,key,value);
+	printf("bst_insert[%d] key=%d,value=%d\n",bst_desc->count,key,value);
 }
 
 static int __bst_contain(bst_desc_s*	bst_desc,bst_node_s* node,int key)
