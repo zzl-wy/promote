@@ -191,7 +191,9 @@ void __bst_preorder(bst_desc_s*	bst_desc,bst_node_s *node)
 
 void bst_preorder(bst_desc_s*	bst_desc)
 {
+	printf("preorder:");
 	__bst_preorder(bst_desc, bst_desc->root);
+	printf("\n");
 }
 
 //中序遍历
@@ -202,16 +204,18 @@ void __bst_inorder(bst_desc_s*	bst_desc,bst_node_s *node)
 		return ;
 	}
 
-	__bst_preorder(bst_desc,node->left);
+	__bst_inorder(bst_desc,node->left);
 	printf("%d ",node->key);
-	__bst_preorder(bst_desc,node->right);
+	__bst_inorder(bst_desc,node->right);
 
 	return ;
 }
 
 void bst_inorder(bst_desc_s*	bst_desc)
 {
-	__bst_inorder(bst_desc, bst_desc->root);
+	printf("inorder:");
+	__bst_inorder(bst_desc, bst_desc->root);	
+	printf("\n");
 }
 
 //后序遍历
@@ -222,35 +226,185 @@ void __bst_postorder(bst_desc_s*	bst_desc,bst_node_s *node)
 		return ;
 	}
 
-	__bst_preorder(bst_desc,node->left);
-	__bst_preorder(bst_desc,node->right);
+	__bst_postorder(bst_desc,node->left);
+	__bst_postorder(bst_desc,node->right);
 	printf("%d ",node->key);
 
 	return ;
 }
 void bst_postorder(bst_desc_s*	bst_desc)
 {
-	__bst_postorder(bst_desc, bst_desc->root);
+	printf("postorder:");
+	__bst_postorder(bst_desc, bst_desc->root);	
+	printf("\n");
 }
 
 //bst层序遍历需要借助一个队列
+#include "queue.h"
+
 void bst_levelorder(bst_desc_s*	bst_desc)
 {
+	queue_s* q = queue_init();	
+    bst_node_s *node;
 
+	if(bst_desc->root == NULL)
+	{
+		return ;
+	}
+
+	printf("levelorder:");
+	queue_push(q,bst_desc->root);	
+	while(!queue_empty(q))
+	{
+		node = queue_front(q);
+		printf("%d ",node->key);
+		queue_pop(q);
+
+		if(node->left)
+		{
+			queue_push(q,node->left);	
+		}
+		if(node->right)
+		{
+			queue_push(q,node->right);
+		}
+	}
+
+	queue_deinit(q);
+	printf("\n");
+	return ;
+}
+
+//删除最小值
+static bst_node_s * __bst_removemin(bst_desc_s*	bst_desc,bst_node_s *node)
+{
+	if(NULL == node)
+	{
+		return NULL;
+	}
+
+	if(NULL != node->left)
+	{
+		node->left = __bst_removemin(bst_desc, node->left);
+		return node;
+	}
+	else
+	{
+		bst_node_s *node_right;
+		
+		node_right = node->right;
+		bst_desc->count--;
+		free(node);
+		return node_right;
+	}
 }
 
 void bst_removemin(bst_desc_s*	bst_desc)
 {
+	bst_desc->root = __bst_removemin(bst_desc, bst_desc->root);
+	return ;
+}
 
+//删除最大值
+static bst_node_s * __bst_removemax(bst_desc_s*	bst_desc,bst_node_s *node)
+{
+	if(NULL == node)
+	{
+		return NULL;
+	}
+
+	if(NULL != node->right)
+	{
+		node->right = __bst_removemax(bst_desc, node->right);
+		return node;
+	}
+	else
+	{
+		bst_node_s *node_left;
+		
+		node_left = node->left;
+		bst_desc->count--;
+		free(node);
+		return node_left;
+	}
 }
 
 void bst_removemax(bst_desc_s*	bst_desc)
 {
-
+	bst_desc->root = __bst_removemax(bst_desc, bst_desc->root);
+	return ;
 }
 
-void bst_remove(bst_desc_s*	bst_desc)
+//删除元素
+static bst_node_s* __bst_minimun(bst_desc_s*	bst_desc,bst_node_s *node)
 {
+	if(NULL == node)
+	{
+		return NULL;
+	}
 
+	if(NULL == node->left)
+	{
+		return node;
+	}
+
+	return __bst_minimun(bst_desc,node->left);
+}
+
+static bst_node_s* __bst_remove(bst_desc_s*	bst_desc,bst_node_s *node,int key)
+{
+	if(key > node->key)
+	{
+		node->right = __bst_remove(bst_desc, node->right, key);
+		return node;
+	}
+	else if(key < node->key)
+	{
+		node->left = __bst_remove(bst_desc, node->left, key);
+		return node;
+	}
+	else//找到要删除的key
+	{
+		if(NULL == node->left)
+		{
+			bst_node_s* node_right;
+			
+			node_right = node->right;
+			free(node);
+			return node_right;
+		}
+
+		if(NULL == node->right)
+		{
+			bst_node_s* node_left;
+			
+			node_left = node->left;
+			free(node);
+			return node_left;
+		}
+
+		bst_node_s *min_node;
+		bst_node_s *new_node;
+
+		min_node = __bst_minimun(bst_desc, node->right);
+		new_node = create_bst_node(min_node->key, min_node->value);
+		bst_desc->count++;
+
+		new_node->right = __bst_removemin(bst_desc,node->right);
+		new_node->left = node->left;
+		free(node);
+		bst_desc->count--;
+
+		return new_node;
+	}
+	
+
+
+	return node;
+}
+void bst_remove(bst_desc_s*	bst_desc,int key)
+{
+	bst_desc->root = __bst_remove(bst_desc, bst_desc->root,key);
+	return ;
 }
 

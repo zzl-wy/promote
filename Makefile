@@ -33,6 +33,7 @@ OBJ_BST = $(OBJ)/bst/
 SRC_BST = $(SRC)/bst/
 bstObj = \
 	$(OBJ_BST)bst.o\
+	$(OBJ_BST)queue.o\
 	$(OBJ_BST)bst_test.o
 	
 OBJ_UTIL = $(OBJ)/util/
@@ -85,7 +86,12 @@ $(OBJ_BST)bst_test.o:\
 	$(SRC_BST)bst_test.c\
 	$(SRC_BST)bst.h
 	$(CC) $(CFLAGS) -fPIC -c $(SRC_BST)bst_test.c -o $(OBJ_BST)bst_test.o
-	
+
+$(OBJ_BST)queue.o:\
+	$(SRC_BST)queue.c\
+	$(SRC_BST)queue.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_BST)queue.c -o $(OBJ_BST)queue.o
+
 ####################HEAP模块##########################
 $(OBJ_HEAP)heap.o:\
 	$(SRC_HEAP)heap.c\
