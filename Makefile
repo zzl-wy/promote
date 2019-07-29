@@ -35,7 +35,16 @@ bstObj = \
 	$(OBJ_BST)bst.o\
 	$(OBJ_BST)queue.o\
 	$(OBJ_BST)bst_test.o
-	
+
+OBJ_UF = $(OBJ)/union_find/
+SRC_UF = $(SRC)/union_find/
+ufObj = \
+	$(OBJ_UF)quuf.o\
+	$(OBJ_UF)quuf_count.o\
+	$(OBJ_UF)quuf_rank.o\
+	$(OBJ_UF)qfuf.o\
+	$(OBJ_UF)uf_test.o
+
 OBJ_UTIL = $(OBJ)/util/
 SRC_UTIL = $(SRC)/util/
 utilObj = \
@@ -55,6 +64,7 @@ mkdir:
 	test -d $(OBJ_HEAP) || mkdir -p $(OBJ_HEAP)
 	test -d $(OBJ_UTIL) || mkdir -p $(OBJ_UTIL)
 	test -d $(OBJ_BST) || mkdir -p $(OBJ_BST)
+	test -d $(OBJ_UF) || mkdir -p $(OBJ_UF)
 	
 #############################清理文件########################
 .PHONY : clean
@@ -63,8 +73,8 @@ clean:
 	rm -rf $(BIN)*	
 	
 #############################生成执行文件#########################
-$(BIN)promote:$(mainObj) $(utilObj) $(heapObj) $(sortObj) $(bstObj)
-	$(CC) $(CFLAGS) $(mainObj) $(utilObj) $(heapObj) $(sortObj) $(bstObj) -o $(BIN)promote
+$(BIN)promote:$(mainObj) $(utilObj) $(heapObj) $(sortObj) $(bstObj) $(ufObj)
+	$(CC) $(CFLAGS) $(mainObj) $(utilObj) $(heapObj) $(sortObj) $(bstObj) $(ufObj) -o $(BIN)promote
 
 ####################main.o##########################
 $(OBJ)main.o:\
@@ -75,6 +85,31 @@ $(OBJ)main.o:\
 $(OBJ_UTIL)util.o:\
 	$(SRC_UTIL)util.c
 	$(CC) $(CFLAGS) -fPIC -c $(SRC_UTIL)util.c -o $(OBJ_UTIL)util.o
+
+####################UF模块##########################
+$(OBJ_UF)quuf.o:\
+	$(SRC_UF)quuf.c\
+	$(SRC_UF)quuf.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_UF)quuf.c -o $(OBJ_UF)quuf.o
+
+$(OBJ_UF)quuf_count.o:\
+	$(SRC_UF)quuf_count.c\
+	$(SRC_UF)quuf_count.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_UF)quuf_count.c -o $(OBJ_UF)quuf_count.o
+
+$(OBJ_UF)quuf_rank.o:\
+	$(SRC_UF)quuf_rank.c\
+	$(SRC_UF)quuf_rank.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_UF)quuf_rank.c -o $(OBJ_UF)quuf_rank.o
+
+$(OBJ_UF)qfuf.o:\
+	$(SRC_UF)qfuf.c\
+	$(SRC_UF)qfuf.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_UF)qfuf.c -o $(OBJ_UF)qfuf.o
+
+$(OBJ_UF)uf_test.o:\
+	$(SRC_UF)uf_test.c
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_UF)uf_test.c -o $(OBJ_UF)uf_test.o
 
 ####################BST模块##########################
 $(OBJ_BST)bst.o:\
