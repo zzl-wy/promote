@@ -47,20 +47,25 @@ int dense_graph_v(dense_graph_s*	dense_graph)
 
 int dense_graph_has_edge(dense_graph_s*	dense_graph,int v,int w)
 {
-	return dense_graph->g[v][w] > 0;
+	int index = v*dense_graph->vertex_cnt+w;
+	return dense_graph->g[index] > 0;
 }
 
 void dense_graph_add_edge(dense_graph_s*	dense_graph,int v,int w)
 {
+	int index;
+	
 	if(dense_graph_has_edge(dense_graph,v,w))
 	{
 		return  ;
 	}
 
-	dense_graph->g[v][w] = 1;
+	index = v*dense_graph->vertex_cnt+w;
+	dense_graph->g[index] = 1;
 	if(!dense_graph->directed)
 	{
-		dense_graph->g[w][v] = 1;	
+		index = w*dense_graph->vertex_cnt+v;
+		dense_graph->g[index] = 1;	
 	}
 	dense_graph->edge_cnt++;
 }

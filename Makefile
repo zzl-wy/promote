@@ -45,6 +45,13 @@ ufObj = \
 	$(OBJ_UF)qfuf.o\
 	$(OBJ_UF)uf_test.o
 
+OBJ_GRAPH = $(OBJ)/graph/
+SRC_GRAPH = $(SRC)/graph/
+graphObj = \
+	$(OBJ_GRAPH)dense_graph.o\
+	$(OBJ_GRAPH)sparse_graph.o\
+	$(OBJ_GRAPH)graph_test.o
+	
 OBJ_UTIL = $(OBJ)/util/
 SRC_UTIL = $(SRC)/util/
 utilObj = \
@@ -65,7 +72,8 @@ mkdir:
 	test -d $(OBJ_UTIL) || mkdir -p $(OBJ_UTIL)
 	test -d $(OBJ_BST) || mkdir -p $(OBJ_BST)
 	test -d $(OBJ_UF) || mkdir -p $(OBJ_UF)
-	
+	test -d $(OBJ_GRAPH) || mkdir -p $(OBJ_GRAPH)
+
 #############################清理文件########################
 .PHONY : clean
 clean:
@@ -73,8 +81,8 @@ clean:
 	rm -rf $(BIN)*	
 	
 #############################生成执行文件#########################
-$(BIN)promote:$(mainObj) $(utilObj) $(heapObj) $(sortObj) $(bstObj) $(ufObj)
-	$(CC) $(CFLAGS) $(mainObj) $(utilObj) $(heapObj) $(sortObj) $(bstObj) $(ufObj) -o $(BIN)promote
+$(BIN)promote:$(mainObj) $(utilObj) $(heapObj) $(sortObj) $(bstObj) $(ufObj) $(graphObj)
+	$(CC) $(CFLAGS) $(mainObj) $(utilObj) $(heapObj) $(sortObj) $(bstObj) $(ufObj) $(graphObj) -o $(BIN)promote
 
 ####################main.o##########################
 $(OBJ)main.o:\
@@ -110,6 +118,21 @@ $(OBJ_UF)qfuf.o:\
 $(OBJ_UF)uf_test.o:\
 	$(SRC_UF)uf_test.c
 	$(CC) $(CFLAGS) -fPIC -c $(SRC_UF)uf_test.c -o $(OBJ_UF)uf_test.o
+	
+####################graph模块##########################
+$(OBJ_GRAPH)dense_graph.o:\
+	$(SRC_GRAPH)dense_graph.c\
+	$(SRC_GRAPH)dense_graph.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_GRAPH)dense_graph.c -o $(OBJ_GRAPH)dense_graph.o
+	
+$(OBJ_GRAPH)sparse_graph.o:\
+	$(SRC_GRAPH)sparse_graph.c\
+	$(SRC_GRAPH)sparse_graph.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_GRAPH)sparse_graph.c -o $(OBJ_GRAPH)sparse_graph.o
+
+$(OBJ_GRAPH)graph_test.o:\
+	$(SRC_GRAPH)graph_test.c
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_GRAPH)graph_test.c -o $(OBJ_GRAPH)graph_test.o
 
 ####################BST模块##########################
 $(OBJ_BST)bst.o:\

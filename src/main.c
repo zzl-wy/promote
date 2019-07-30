@@ -5,8 +5,9 @@ int test_sort(void);
 void test_heap();
 void test_bst();
 void test_union_find();
+void test_graph();
 
 int main(int argc,char* argv[])
 {
-	test_union_find();
+	test_graph();
 }

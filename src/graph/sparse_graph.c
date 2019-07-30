@@ -6,7 +6,7 @@
 
 typedef struct __sgraph_edge_
 {
-	int v;
+	int vertex;
 	struct __sgraph_edge_* next;
 }sgraph_edge_s;
 
@@ -95,7 +95,7 @@ static int __sparse_graph_has_edge(sgraph_vertex_s* sgraph_vertex,int w)
 	sgraph_edge = sgraph_vertex->head;
 	for(int i = 0; i < sgraph_vertex->cnt; i++)
 	{
-		if(sgraph_edge->v == w)
+		if(sgraph_edge->vertex == w)
 		{
 			return 1;
 		}
@@ -116,20 +116,34 @@ int sparse_graph_has_edge(sparse_graph_s*	sparse_graph,int v,int w)
 
 static void __sparse_graph_add_edge(sparse_graph_s*	sparse_graph,int v,int w)
 {
+	sgraph_edge_s* sgraph_edge;
+	sgraph_vertex_s* sgraph_vertex;
 
+	sgraph_vertex = sparse_graph->sgraph_vertex + v;
+	sgraph_edge = malloc0(sizeof(sgraph_edge_s));
+	sgraph_edge->vertex = w;
+	if(sgraph_vertex->cnt == 0)
+	{
+		sgraph_vertex->head = sgraph_edge;
+		sgraph_vertex->tail = sgraph_edge;
+	}
+	else
+	{
+		sgraph_vertex->tail->next = sgraph_edge;
+		sgraph_vertex->tail = sgraph_edge;
+	}
+
+	sgraph_vertex->cnt++;
+	return;
 }
 
 void sparse_graph_add_edge(sparse_graph_s*	sparse_graph,int v,int w)
 {
-	sgraph_edge_s* sgraph_edge;
-
 	//因为检查是否有平行边也就是调用sparse_graph_has_edge为O(n)，成本较高，所以可以忽略平行边
-	sgraph_edge = malloc0(sizeof(sgraph_edge_s))
-
-	sparse_graph->sgraph_edge[v] = 1;
+	__sparse_graph_add_edge(sparse_graph,v,w);
 	if(v != w && !sparse_graph->directed)
 	{
-		sparse_graph->g[w][v] = 1;	
+		__sparse_graph_add_edge(sparse_graph,w,v);
 	}
 	sparse_graph->edge_cnt++;
 }
