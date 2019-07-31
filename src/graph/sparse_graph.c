@@ -148,3 +148,31 @@ void sparse_graph_add_edge(sparse_graph_s*	sparse_graph,int v,int w)
 	sparse_graph->edge_cnt++;
 }
 
+void sparse_graph_print_vertex_edge(sparse_graph_s*	sparse_graph,int v)
+{
+	sgraph_vertex_s* sgraph_vertex;
+	sgraph_edge_s* sgraph_edge;
+
+	sgraph_vertex = sparse_graph->sgraph_vertex + v;
+	sgraph_edge = sgraph_vertex->head;
+	
+	printf("%d : ",v);
+	for(int i = 0; i < sgraph_vertex->cnt; i++)
+	{
+        printf("%d ",sgraph_edge->vertex);
+		
+		sgraph_edge = sgraph_edge->next;
+	}
+	printf("\n");
+}
+
+void sparse_graph_print(sparse_graph_s*	sparse_graph)
+{
+    // O(E)
+    for( int v = 0 ; v < sparse_graph->vertex_cnt; v ++ )
+	{
+		sparse_graph_print_vertex_edge(sparse_graph,v);
+    }
+
+}
+

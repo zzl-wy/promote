@@ -13,4 +13,5 @@ int sparse_graph_v(sparse_graph_s*	sparse_graph);
 int sparse_graph_has_edge(sparse_graph_s*	sparse_graph,int v,int w);
 void sparse_graph_add_edge(sparse_graph_s*	sparse_graph,int v,int w);
 
+void sparse_graph_print_vertex_edge(sparse_graph_s*	sparse_graph,int v);
 #endif //__SPARSE_GRAPH_H__

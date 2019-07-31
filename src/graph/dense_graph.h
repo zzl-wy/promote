@@ -13,4 +13,7 @@ int dense_graph_v(dense_graph_s*	dense_graph);
 int dense_graph_has_edge(dense_graph_s*	dense_graph,int v,int w);
 void dense_graph_add_edge(dense_graph_s*	dense_graph,int v,int w);
 
+void dense_graph_print_vertex_edge(dense_graph_s*	dense_graph,int v);
+void dense_graph_print(dense_graph_s*	dense_graph);
+
 #endif //__DENSE_GRAPH_H__

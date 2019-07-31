@@ -70,3 +70,29 @@ void dense_graph_add_edge(dense_graph_s*	dense_graph,int v,int w)
 	dense_graph->edge_cnt++;
 }
 
+void dense_graph_print_vertex_edge(dense_graph_s*	dense_graph,int v)
+{
+	int index;
+
+	index = v*dense_graph->vertex_cnt;
+	printf("%d : ",v);
+
+	for(int i = 0;dense_graph->vertex_cnt; i++)
+	{
+		if(dense_graph->g[index+i] > 0)
+		{
+			printf("%d ",i);
+		}
+	}
+	printf("\n");	
+}
+
+// O(E)
+void dense_graph_print(dense_graph_s*	dense_graph)
+{
+    for( int v = 0 ; v < dense_graph->vertex_cnt; v ++ )
+	{
+		dense_graph_print_vertex_edge(dense_graph,v);
+    }
+}
+
