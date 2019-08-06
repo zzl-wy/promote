@@ -282,5 +282,81 @@ void sparse_graph_path(sparse_graph_s*	sparse_graph,int v,int w)
 	return ;
 }
 
+//BFS广度优先遍历，求无权图的的最短路径
+#include "graph_queue.h"
+
+void sparse_graph_shortest_path(sparse_graph_s*	sparse_graph,int v,int w)
+{
+	char visited[sparse_graph->vertex_cnt];
+	char from[sparse_graph->vertex_cnt];
+	char ord[sparse_graph->vertex_cnt];//记录最短的距离
+	
+	graph_queue_s* q = graph_queue_init();	
+
+	for(int i = 0; i < sparse_graph->vertex_cnt; i++)
+	{
+		visited[i] = 0;
+		from[i] = -1;
+		ord[i] = -1;
+	}
+
+
+	graph_queue_push(q,v);
+	visited[v] = 1;
+	ord[v] = 0;
+
+	while(!graph_queue_empty(q))
+	{
+		int value;
+		sgraph_vertex_s* sgraph_vertex;
+		sgraph_edge_s* sgraph_edge;
+
+		value = graph_queue_front(q);
+		graph_queue_pop(q);
+
+		
+		sgraph_vertex = sparse_graph->sgraph_vertex + value;
+		sgraph_edge = sgraph_vertex->head;
+		while(NULL != sgraph_edge)
+		{
+			if(0 == visited[sgraph_edge->vertex])
+			{
+				from[sgraph_edge->vertex] = value;				
+				ord[sgraph_edge->vertex] = ord[value]+1;
+				visited[sgraph_edge->vertex] = 1;
+				graph_queue_push(q,sgraph_edge->vertex);
+			}
+			sgraph_edge = sgraph_edge->next;
+		}	
+	}
+
+	if(0 == visited[w])
+	{
+		printf("shortest_path:%d==>%d no path!\n",v,w);
+	}
+
+	printf("sparse shortest_path graph=>%d==>%d path:\n",v,w);
+	int a = w;
+	int flag = 0;
+	while(-1 != a)
+	{
+		if(1 == flag)
+		{
+			printf("<---");
+		}
+		else
+		{
+			flag = 1;
+		}
+		
+		printf("%d",a);
+		a = from[a];
+	}
+	printf("\n");
+	printf("v=>w distance=%d\n",ord[w]);
+
+	return ;
+}
+
 
 

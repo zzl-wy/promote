@@ -50,7 +50,14 @@ SRC_GRAPH = $(SRC)/graph/
 graphObj = \
 	$(OBJ_GRAPH)dense_graph.o\
 	$(OBJ_GRAPH)sparse_graph.o\
+	$(OBJ_GRAPH)graph_queue.o\
 	$(OBJ_GRAPH)graph_test.o
+
+OBJ_WGRAPH = $(OBJ)/weight_graph/
+SRC_WGRAPH = $(SRC)/weight_graph/
+wgraphObj = \
+	$(OBJ_WGRAPH)wsparse_graph.o\
+	$(OBJ_WGRAPH)wgraph_test.o
 	
 OBJ_UTIL = $(OBJ)/util/
 SRC_UTIL = $(SRC)/util/
@@ -73,6 +80,7 @@ mkdir:
 	test -d $(OBJ_BST) || mkdir -p $(OBJ_BST)
 	test -d $(OBJ_UF) || mkdir -p $(OBJ_UF)
 	test -d $(OBJ_GRAPH) || mkdir -p $(OBJ_GRAPH)
+	test -d $(OBJ_WGRAPH) || mkdir -p $(OBJ_WGRAPH)
 
 #############################清理文件########################
 .PHONY : clean
@@ -81,8 +89,8 @@ clean:
 	rm -rf $(BIN)*	
 	
 #############################生成执行文件#########################
-$(BIN)promote:$(mainObj) $(utilObj) $(heapObj) $(sortObj) $(bstObj) $(ufObj) $(graphObj)
-	$(CC) $(CFLAGS) $(mainObj) $(utilObj) $(heapObj) $(sortObj) $(bstObj) $(ufObj) $(graphObj) -o $(BIN)promote
+$(BIN)promote:$(mainObj) $(utilObj) $(heapObj) $(sortObj) $(bstObj) $(ufObj) $(graphObj) $(wgraphObj)
+	$(CC) $(CFLAGS) $(mainObj) $(utilObj) $(heapObj) $(sortObj) $(bstObj) $(ufObj) $(graphObj) $(wgraphObj) -o $(BIN)promote
 
 ####################main.o##########################
 $(OBJ)main.o:\
@@ -130,10 +138,25 @@ $(OBJ_GRAPH)sparse_graph.o:\
 	$(SRC_GRAPH)sparse_graph.h
 	$(CC) $(CFLAGS) -fPIC -c $(SRC_GRAPH)sparse_graph.c -o $(OBJ_GRAPH)sparse_graph.o
 
+$(OBJ_GRAPH)graph_queue.o:\
+	$(SRC_GRAPH)graph_queue.c\
+	$(SRC_GRAPH)graph_queue.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_GRAPH)graph_queue.c -o $(OBJ_GRAPH)graph_queue.o
+
 $(OBJ_GRAPH)graph_test.o:\
 	$(SRC_GRAPH)graph_test.c
 	$(CC) $(CFLAGS) -fPIC -c $(SRC_GRAPH)graph_test.c -o $(OBJ_GRAPH)graph_test.o
 
+####################wgraph模块##########################
+$(OBJ_WGRAPH)wsparse_graph.o:\
+	$(SRC_WGRAPH)wsparse_graph.c\
+	$(SRC_WGRAPH)wsparse_graph.h
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_WGRAPH)wsparse_graph.c -o $(OBJ_WGRAPH)wsparse_graph.o
+	
+$(OBJ_WGRAPH)wgraph_test.o:\
+	$(SRC_WGRAPH)wgraph_test.c
+	$(CC) $(CFLAGS) -fPIC -c $(SRC_WGRAPH)wgraph_test.c -o $(OBJ_WGRAPH)wgraph_test.o
+	
 ####################BST模块##########################
 $(OBJ_BST)bst.o:\
 	$(SRC_BST)bst.c\

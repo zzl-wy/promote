@@ -92,6 +92,10 @@ void test_read_dense_graph(const char* filename)
 	printf("\n");
 	dense_graph_path(dense_graph, 0, 6);
 
+	printf("\n");
+	dense_graph_shortest_path(dense_graph, 0, 6);
+	dense_graph_shortest_path(dense_graph, 0, 3);
+
 	return ;
 }
 
@@ -135,7 +139,10 @@ void test_read_sparse_graph(const char* filename)
 	sparse_graph_component(sparse_graph);
 	printf("\n");
 	sparse_graph_path(sparse_graph, 0, 6);
-	
+
+	sparse_graph_shortest_path(sparse_graph, 0, 6);
+	sparse_graph_shortest_path(sparse_graph, 0, 3);
+
 	return ;
 }
 

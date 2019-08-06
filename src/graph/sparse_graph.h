@@ -19,4 +19,6 @@ void sparse_graph_print(sparse_graph_s*	sparse_graph);
 void sparse_graph_component(sparse_graph_s*	sparse_graph);
 void sparse_graph_path(sparse_graph_s*	sparse_graph,int v,int w);
 
+void sparse_graph_shortest_path(sparse_graph_s*	sparse_graph,int v,int w);
+
 #endif //__SPARSE_GRAPH_H__
