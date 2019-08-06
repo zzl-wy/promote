@@ -14,11 +14,11 @@ typedef struct ___indexheap__
 
 static void indexheap_shiftdown(indexheap_s* heap,int index)
 {
-	while(index*2 >= heap->count)
+	while(index*2 <= heap->count)
 	{
 		int j = index*2;
 
-		if(j+1 >= heap->count && heap->data[heap->index[j+1]] > heap->data[heap->index[j]])
+		if(j+1 <= heap->count && heap->data[heap->index[j+1]] > heap->data[heap->index[j]])
 		{
 			j = j + 1;
 		}
@@ -45,13 +45,7 @@ int indexheap_getmax(indexheap_s* heap)
 	swap(heap->index,1,heap->count);
 	heap->count--;
 
-	indexheap_debug(heap);
-
 	indexheap_shiftdown(heap, 1);
-	
-	indexheap_debug(heap);
-	printf("get_max=%d\n\n\n",ret);
-
 	return ret;
 }
 

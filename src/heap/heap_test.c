@@ -34,7 +34,7 @@ void test_heap()
 
 	srand(time(NULL));
 	heap = indexheap_init(100);
-	for(int i = 0; i < 10; i++)
+	for(int i = 0; i < 100; i++)
 	{
 		tmp = rand()%100;
 		indexheap_insert(heap,tmp);
