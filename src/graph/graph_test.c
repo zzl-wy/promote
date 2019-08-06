@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <assert.h>
+
 #include "sparse_graph.h"
 #include "dense_graph.h"
 
@@ -44,6 +46,8 @@ void test_dense_graph(int vertex,int edge)
     }
 
 	dense_graph_print(dense_graph);
+	printf("\n\n");
+	dense_graph_component(dense_graph);
 	return ;
 }
 
@@ -82,7 +86,13 @@ void test_read_dense_graph(const char* filename)
 		dense_graph_add_edge(dense_graph, a, b);
 	}
 
-	dense_graph_print(dense_graph);
+	dense_graph_print(dense_graph);	
+	printf("\n");
+	dense_graph_component(dense_graph);
+	printf("\n");
+	dense_graph_path(dense_graph, 0, 6);
+
+	return ;
 }
 
 void test_read_sparse_graph(const char* filename)
@@ -120,19 +130,26 @@ void test_read_sparse_graph(const char* filename)
 		sparse_graph_add_edge(sparse_graph, a, b);
 	}
 
-	sparse_graph_print(sparse_graph);
+	sparse_graph_print(sparse_graph);	
+	printf("\n");
+	sparse_graph_component(sparse_graph);
+	printf("\n");
+	sparse_graph_path(sparse_graph, 0, 6);
+	
+	return ;
 }
 
 void test_graph()
 {
-    int vertex = 20;
-    int edge = 100;
+ //   int vertex = 20;
+  //  int edge = 100;
 
     srand(time(NULL) );
 
-	test_sparse_graph(vertex,edge);
+	test_read_sparse_graph("/root/testG2.txt");
     printf("\n");
-	test_dense_graph(vertex,edge);
+//	test_read_dense_graph("/root/testG1.txt");
+	test_read_dense_graph("/root/testG2.txt");
 	
 	return ;
 }

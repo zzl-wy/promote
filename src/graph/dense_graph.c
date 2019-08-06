@@ -77,7 +77,7 @@ void dense_graph_print_vertex_edge(dense_graph_s*	dense_graph,int v)
 	index = v*dense_graph->vertex_cnt;
 	printf("%d : ",v);
 
-	for(int i = 0;dense_graph->vertex_cnt; i++)
+	for(int i = 0;i < dense_graph->vertex_cnt; i++)
 	{
 		if(dense_graph->g[index+i] > 0)
 		{
@@ -94,5 +94,171 @@ void dense_graph_print(dense_graph_s*	dense_graph)
 	{
 		dense_graph_print_vertex_edge(dense_graph,v);
     }
+}
+
+static void dense_graph_component_dfs(dense_graph_s*	dense_graph,char* visited,int v)
+{
+	int index;
+
+	visited[v] = 1;
+	index = v*dense_graph->vertex_cnt;	
+	printf("%d ",v);
+	for(int i = 0;i < dense_graph->vertex_cnt; i++)
+	{
+		if(dense_graph->g[index+i] > 0 && visited[i] == 0)
+		{
+			dense_graph_component_dfs(dense_graph,visited,i);
+		}
+	}
+
+	return ;
+}
+
+void dense_graph_component(dense_graph_s*	dense_graph)
+{
+	char visited[dense_graph->vertex_cnt];
+	int cnt = 0;
+
+	for(int i = 0; i < dense_graph->vertex_cnt; i++)
+	{
+		visited[i] = 0;
+	}
+
+	for(int i = 0; i < dense_graph->vertex_cnt; i++)
+	{
+		if(0 == visited[i])
+		{
+			cnt++;
+			printf("dense_graph comnent[%d]:",cnt);
+			dense_graph_component_dfs(dense_graph,visited,i);
+			printf("\n");
+		}
+	}
+
+	return ;
+}
+
+static void dense_graph_path_dfs(dense_graph_s*	dense_graph,char* visited,char* from,int v)
+{
+	int index;
+
+	visited[v] = 1;
+	index = v*dense_graph->vertex_cnt;
+	for(int i = 0;i < dense_graph->vertex_cnt; i++)
+	{
+		if(dense_graph->g[index+i] > 0 && visited[i] == 0)
+		{
+			from[i] = v;
+			dense_graph_path_dfs(dense_graph,visited,from,i);
+		}
+	}
+
+}
+
+void dense_graph_path(dense_graph_s*	dense_graph,int v,int w)
+{
+	char visited[dense_graph->vertex_cnt];
+	char from[dense_graph->vertex_cnt];
+
+	for(int i = 0; i < dense_graph->vertex_cnt; i++)
+	{
+		visited[i] = 0;
+		from[i] = -1;
+	}
+
+ 	dense_graph_path_dfs(dense_graph,visited,from,v);
+	if(0 == visited[w])
+	{
+		printf("%d==>%d no path!\n",v,w);
+	}
+
+	printf("dense graph=>%d==>%d path:\n",v,w);
+	int a = w;
+	int flag = 0;
+	while(-1 != a)
+	{
+		if(1 == flag)
+		{
+			printf("<---");
+		}
+		else
+		{
+			flag = 1;
+		}
+		
+		printf("%d",a);
+		a = from[a];
+	}
+	printf("\n");
+
+	return ;
+}
+
+//BFS广度优先遍历，求无权图的的最短路径
+void dense_graph_shortest_path(dense_graph_s*	dense_graph,int v,int w)
+{
+#if 0
+	char visited[dense_graph->vertex_cnt];
+	char from[dense_graph->vertex_cnt];
+	char ord[dense_graph->vertex_cnt];
+	queue_s* q = queue_init();	
+
+	for(int i = 0; i < dense_graph->vertex_cnt; i++)
+	{
+		visited[i] = 0;
+		from[i] = -1;
+		ord[i] = -1;
+	}
+
+
+	queue_push(q,v);
+	visited[v] = 1;
+	ord[v] = 0;
+
+	while(!queue_empty(q))
+	{
+		int index;
+		int value = queue_front(q);
+
+		queue_pop(q);
+		visited[value] = 1;
+		index = value*dense_graph->vertex_cnt;
+		for(int i = 0;i < dense_graph->vertex_cnt; i++)
+		{
+			if(dense_graph->g[index+i] > 0 && visited[i] == 0)
+			{
+				from[i] = value;
+				queue_push(q,i);
+			}
+		}		
+	}
+
+
+ 	dense_graph_path_dfs(dense_graph,visited,from,v);
+	if(0 == visited[w])
+	{
+		printf("%d==>%d no path!\n",v,w);
+	}
+
+	printf("dense graph=>%d==>%d path:\n",v,w);
+	int a = w;
+	int flag = 0;
+	while(-1 != a)
+	{
+		if(1 == flag)
+		{
+			printf("<---");
+		}
+		else
+		{
+			flag = 1;
+		}
+		
+		printf("%d",a);
+		a = from[a];
+	}
+	printf("\n");
+#endif
+	return ;
 }
 

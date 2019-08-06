@@ -176,3 +176,111 @@ void sparse_graph_print(sparse_graph_s*	sparse_graph)
 
 }
 
+static void sparse_graph_component_dfs(sparse_graph_s*	sparse_graph,char* visited,int v)
+{
+	sgraph_vertex_s* sgraph_vertex;
+	sgraph_edge_s* sgraph_edge;
+
+	visited[v] = 1;
+	printf("%d ",v);
+
+	sgraph_vertex = sparse_graph->sgraph_vertex + v;
+	sgraph_edge = sgraph_vertex->head;
+	while(NULL != sgraph_edge)
+	{
+		if(0 == visited[sgraph_edge->vertex])
+		{
+			sparse_graph_component_dfs(sparse_graph,visited, sgraph_edge->vertex);
+		}
+		sgraph_edge = sgraph_edge->next;
+	}
+	
+	return ;
+}
+
+void sparse_graph_component(sparse_graph_s*	sparse_graph)
+{
+	char visited[sparse_graph->vertex_cnt];
+	int cnt = 0;
+
+	for(int i = 0; i < sparse_graph->vertex_cnt; i++)
+	{
+		visited[i] = 0;
+	}
+
+	for(int i = 0; i < sparse_graph->vertex_cnt; i++)
+	{
+		if(0 == visited[i])
+		{
+			cnt++;
+			printf("sparse_graph comnent[%d]:",cnt);
+			sparse_graph_component_dfs(sparse_graph,visited,i);
+			printf("\n");
+		}
+	}
+}
+
+//========================================
+static void sparse_graph_path_dfs(sparse_graph_s*	sparse_graph,char* visited,char* from,int v)
+{
+	sgraph_vertex_s* sgraph_vertex;
+	sgraph_edge_s* sgraph_edge;
+
+	visited[v] = 1;
+
+	sgraph_vertex = sparse_graph->sgraph_vertex + v;
+	sgraph_edge = sgraph_vertex->head;
+	while(NULL != sgraph_edge)
+	{
+		if(0 == visited[sgraph_edge->vertex])
+		{
+			sparse_graph_path_dfs(sparse_graph,visited,from,sgraph_edge->vertex);
+			from[sgraph_edge->vertex] = v;
+		}
+		sgraph_edge = sgraph_edge->next;
+	}
+	
+	return ;
+}
+
+void sparse_graph_path(sparse_graph_s*	sparse_graph,int v,int w)
+{
+	char visited[sparse_graph->vertex_cnt];
+	char from[sparse_graph->vertex_cnt];
+
+	for(int i = 0; i < sparse_graph->vertex_cnt; i++)
+	{
+		visited[i] = 0;		
+		from[i] = -1;
+	}
+
+ 	sparse_graph_path_dfs(sparse_graph,visited,from,v);
+	if(0 == visited[w])
+	{
+		printf("%d==>%d no path!\n",v,w);
+	}
+
+	printf("sparse graph=>%d==>%d path:\n",v,w);
+	int a = w;
+	int flag = 0;
+	while(-1 != a)
+	{
+		if(1 == flag)
+		{
+			printf("<---");
+		}
+		else
+		{
+			flag = 1;
+		}
+		
+		printf("%d",a);
+		a = from[a];
+	}
+	printf("\n");
+
+	return ;
+}
+
+
+
