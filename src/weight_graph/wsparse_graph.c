@@ -178,5 +178,80 @@ void wsgraph_print(wsgraph_s*	wsgraph)
 
 }
 
+//最短路径 Shortest Path Tree, SPT
+//最小生成树Minimum Span Tree
 
+void wsgraph_lazy_prim_visit(wsgraph_s*	wsgraph,heap_desc_s* heap,int* marked,int v)
+{
+	wsgraph_vertex_s* wsgraph_vertex;
+	wsgraph_edge_s* wsgraph_edge;
+
+	assert(!marked[v]);
+
+	marked[v] = 1;
+	wsgraph_vertex = wsgraph->wsgraph_vertex + v;
+	wsgraph_edge = wsgraph_vertex->head;
+	for(int i = 0; i < wsgraph_vertex->cnt; i++)
+	{
+		if(0 == marked[wsgraph_edge->vertex])
+		{
+			heap_insert(heap,wsgraph_edge);
+		}
+		wsgraph_edge = wsgraph_edge->next;
+	}
+	
+	
+}
+
+void wsgraph_lazy_prim(wsgraph_s*	wsgraph)
+{
+	heap_desc_s* heap;
+	int marked[wsgraph->vertex_cnt];
+	double mst_weight;
+	wsgraph_edge_s* wsgraph_edge;
+
+	heap = heap_init(wsgraph->vertex_cnt);
+	for(int i = 0;  i < wsgraph->vertex_cnt; i++)
+	{
+		marked[i] = 0;
+	}
+
+	//lazy prim
+	wsgraph_lazy_prim_visit(wsgraph,heap,marked,0);
+
+	while(!heap_isempty(heap))
+	{
+		wsgraph_edge = heap_getmin(heap);
+
+		//两个节点在同侧,说明不是横切边
+		if(marked[wsgraph_edge->vertex1] == marked[wsgraph_edge->vertex2])
+		{
+			continue;
+		}
+
+		printf("mst edge:%d-%d",);
+		if(0 == marked[wsgraph_edge->vertex1])
+		{
+			wsgraph_lazy_prim_visit(wsgraph,heap,marked,wsgraph_edge->vertex1);
+		}
+		else
+		{
+			wsgraph_lazy_prim_visit(wsgraph,heap,marked,wsgraph_edge->vertex2);
+		}
+	}
+
+}
+
+//===========================================================
+void wsgraph_prim(wsgraph_s*	wsgraph)
+{
+
+}
+
+
+//===========================================================
+void wsgraph_crustkal(wsgraph_s*	wsgraph)
+{
+
+}
 
